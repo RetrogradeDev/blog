@@ -1,6 +1,6 @@
 ---
-title: Designing a 65N Liquid Bipropellant Rocket Engine
-description: A detailed look at the design process for a small liquid bipropellant rocket engine.
+title: Designing a Rocket Engine
+description: A detailed look at the design process for a 65N liquid bipropellant rocket engine.
 math: true
 date: 2026-03-25 21:00:00 +0100
 ---
@@ -85,7 +85,7 @@ Coaxial swirlers work by injecting fuel and oxidizer through concentric tubes w
 
 By swirling the GOX and Ethanol in opposite directions (or even just swirling the fuel), we create a high-shear environment. This 'shreds' the liquid ethanol into a fine mist, maximizing the surface area for combustion.
 
-![[Coaxial Swirler.png|188]]
+![Coaxial Swirler](/assets/img/swirler.png){: width="200" }
 
 The script calculates the desired size of the oxidizer and fuel inlets, given that we want 2 fuel holes, 4 oxidizer holes and a pressure drop of 20%, to ensure stable flow and prevent combustion instabilities from propagating upstream.
 
@@ -205,3 +205,7 @@ We will use water as our coolant, because it's extremely easy to access. A flow 
 | Coolant density         | 1000 kg/m^3    |
 | Coolant Mass Flow Rate  | 0.325 kg/s     |
 | Cooling Jacket Diameter | 42.4 mm        |
+
+---
+
+*To be continued...*
