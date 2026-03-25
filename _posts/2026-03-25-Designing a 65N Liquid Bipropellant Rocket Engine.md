@@ -1,5 +1,5 @@
 ---
-title: engine #Designing a 65N Liquid Bipropellant Rocket Engine
+title: Designing a 65N Liquid Bipropellant Rocket Engine
 description: A detailed look at the design process for a small liquid bipropellant rocket engine.
 math: true
 date: 2026-03-25 21:00:00 +0100
@@ -56,7 +56,7 @@ Now, every time you change a single parameter, you have to recompute all of thes
 
 Here is a table, covering some of the important parameters we computed:
 
-| **Parameter**                | **Value**   |
+| Parameter                    | Value       |
 | ---------------------------- | ----------- |
 | Thrust                       | 50 N        |
 | Chamber Pressure             | 1.5 MPa     |
@@ -74,6 +74,7 @@ Here is a table, covering some of the important parameters we computed:
 | Nozzle Exit Diameter         | 9.6 mm      |
 | Chamber Diameter             | 28 mm       |
 | Chamber Length               | 60 mm       |
+
 **Note: this is version one of the table. Values will change.**
 
 ## 3. The "We Should Probably Mix These" Section
@@ -95,6 +96,7 @@ The script calculates the desired size of the oxidizer and fuel inlets, given th
 | Fuel Density               | 789.00 kg/m^3 |
 | Oxidizer Injector Diameter | 1.26 mm       |
 | Fuel Injector Diameter     | 0.63 mm       |
+
 Do you see the problem? Holes of 0.63 mm are almost impossible to drill, especially in a high school shop. To solve this problem, we'll do two things:
 
 1. Increase our thrust to 65N. More thrust means more propellant being used.
@@ -125,6 +127,7 @@ Let's run the script again, with the updated parameters:
 | Fuel Density                 | 789 kg/m^3   |
 | Oxidizer Injector Diameter   | 1.44 mm      |
 | Fuel Injector Diameter       | 1.01 mm      |
+
 As you can see, making these changes increased the fuel injector diameter to 1.01 mm, which is way easier to manufacture.
 
 ## 4. It's a Material World
@@ -156,7 +159,7 @@ $$t = \frac{P_c \cdot r}{\sigma / FS}
 $$
 - **$P_c$:** 1,500,000 Pa (15 bar).
 - **$r$:** Chamber radius (0.0156 m).
-- **$\sigma$ (Sigma):** Yield strength of Aluminum 6061-T6 (241 MPa).
+- **$\sigma$** Yield strength of Aluminum 6061-T6 (241 MPa).
 - **$FS$:** Factor of Safety (4.0 for rockets).
 
 If we calculate this, we find that we need a wall thickness of 0.39 mm. While in theory this should be enough to hold the pressure, in reality, our walls should be around **5mm thick**. Why? Because the aluminum gets weaker as it gets hot, and we need enough "meat" in the metal to machine it!
