@@ -1,0 +1,206 @@
+---
+title: Designing a 65N Liquid Bipropellant Rocket Engine
+description: A detailed look at the design process for a small liquid bipropellant rocket engine.
+math: true
+date: 2026-03-25 21:00:00 +0100
+categories: [Rocketry]
+tags: [rocketry, engineering, propulsion]
+---
+
+A high school student walks into a machine shop with €40 and the goal of making a rocket engine. This sounds like a great setup for a joke, but it isn't. This is either a great idea or a fantastic way to learn from failure.
+
+## 1. How to Explode Responsibly
+
+Rocket engines are, at their core, surprisingly simple machines, but what makes them complex is the fact that flight engines need extremely high thrust and efficiency, while being as lightweight as possible. Cost isn't much of a problem, although it is for me.
+
+Before designing everything, I want to list some objectives:
+- Simple. My school has a decent machine shop, however, I have very limited experience with them.
+- Safe. I like my body in one piece.
+- Cheap. I currently own €40.21.
+
+That's all I want for this project, so it's certainly easier than making a new Raptor engine!
+
+I now need to make some decisions that will shape the rest of the project:
+- Desired thrust and chamber pressure
+- Propellants to be used
+- How the propellants will be fed to the engine
+
+I decided to aim for 50N of thrust (this will later become 65N, because it's hard to drill holes the size of a few human hairs - more about this in section 3). This is an extremely small number for a rocket engine (the Raptor 3 has 2.75 MN), but it's safer and makes a lot of things simpler, and doesn't require a high chamber temperature, or large fuel consumption.
+
+For the chamber pressure, I've settled for 15 bar (1.5 MPa). It's high enough for stable combustion, but low enough to not destroy valves from hardware stores.
+
+After doing some research, I decided to settle for Gaseous Oxygen (GOX) and Ethanol as propellants.
+The oxidizer, GOX, is cheap, pretty easy to find, but most importantly, not toxic or cryogenic, which makes it much easier to handle. It's way less dense than the Liquid Oxygen (LOX), so that's why real rockets don't use it, but weight doesn't matter for us.
+The fuel, ethanol, also known as ethyl alcohol or simply alcohol, is cheap, is easier to handle than kerosene and is less prone to leaving soot, which makes it safer. It's not toxic, and you can just buy it online.
+Our Mixture Ratio (The amount of oxidizer to fuel) will be 1.4. While the ideal ratio for GOX/Ethanol is around 2.0, adding more fuel keeps the temperature lower.
+
+We also need to get these fuels into our engine. We could use turbopumps, like real engines use, but this is way too complex and expensive for us. Instead, we will use a pressure fed design, where we use the pressure of the tanks to push it into the combustion chamber. For gaseous oxygen, this won't be much of a problem, since it comes in pressurized tanks, however, for our fuel, this is a problem. Since ethanol is a liquid and is incompressible, we will use nitrogen as a "gas piston" to displace it.
+
+## 2. It's not Rocket Science...
+
+It's time for some math!
+In order to get started with the physical design, we have to know a few parameters:
+
+- Combustion Temperature
+- Approximate ISP
+- Mass Flow
+- Throat Area and Diameter
+- Nozzle Expansion, Area and Diameter
+- And many, many more...
+
+I would love to explain what all of these are and the math behind it, but there are hundreds of documents and books that can explain it ten times better than I can, so if you are interested, feel free to do some research yourself. That being said, here are the key parameters worth knowing before reading further:
+- **Characteristic Velocity**: measures the efficiency of a combustion chamber, independent of the nozzle performance.
+- **Thrust Coefficient**: quantifies the efficiency of our engine by relating the actual thrust produced to the chamber pressure and throat area.
+- **Specific Impulse**: a measure of the efficiency of the rocket engine, representing the thrust produced per unit of propellant consumed.
+- **Mass Flow Rate**: the mass of a substance passing through a given surface per unit of time.
+
+Now, every time you change a single parameter, you have to recompute all of these, so instead of spending 15 minutes doing that, I did what's called a programmer move, and spent 6h designing a tool that does all of this for you. On the plus side, I did learn a lot while doing this, and I enjoyed the process. If you are interested, it is available on my GitHub: https://github.com/RetrogradeDev/propulsion_designer
+
+Here is a table, covering some of the important parameters we computed:
+
+| **Parameter**                | **Value**   |
+| ---------------------------- | ----------- |
+| Thrust                       | 50 N        |
+| Chamber Pressure             | 1.5 MPa     |
+| Ambient Pressure             | 101325 Pa   |
+| Propellants                  | GOX/Ethanol |
+| Mix Ratio                    | 1.4         |
+| Characteristic Velocity (c*) | 1641.81 m/s |
+| Thrust Coefficient (Cf)      | 1.35        |
+| Specific Impulse (Isp)       | 226.24 s    |
+| Total Mass Flow Rate         | 0.023 kg/s  |
+| Fuel Mass Flow Rate          | 0.009 kg/s  |
+| Oxidizer Mass Flow Rate      | 0.013 kg/s  |
+| Throat Diameter              | 5.6 mm      |
+| Expansion Ratio              | 2.94        |
+| Nozzle Exit Diameter         | 9.6 mm      |
+| Chamber Diameter             | 28 mm       |
+| Chamber Length               | 60 mm       |
+**Note: this is version one of the table. Values will change.**
+
+## 3. The "We Should Probably Mix These" Section
+
+Getting the propellants into the combustion chamber is one thing, but making sure they are mixed as well as possible is probably the hardest part of this entire engine. Injectors take our oxidizer and fuel, and make sure this happens. There are a lot of different injector designs; I decided to use a **Coaxial Swirler**.
+
+Coaxial swirlers work by injecting fuel and oxidizer through concentric tubes with tangential, rotating motion, creating intense centrifugal forces. This motion forms a thin, hollow cone-shaped  sheet that breaks into fine droplets, enabling fast, stable, and highly efficient propellant mixing.
+
+By swirling the GOX and Ethanol in opposite directions (or even just swirling the fuel), we create a high-shear environment. This 'shreds' the liquid ethanol into a fine mist, maximizing the surface area for combustion.
+
+![[Coaxial Swirler.png|188]]
+
+The script calculates the desired size of the oxidizer and fuel inlets, given that we want 2 fuel holes, 4 oxidizer holes and a pressure drop of 20%, to ensure stable flow and prevent combustion instabilities from propagating upstream.
+
+| Parameter                  | Value         |
+| -------------------------- | ------------- |
+| Injector Pressure Drop     | 0.3 MPa       |
+| Oxidizer Density           | 23.65 kg/m^3  |
+| Fuel Density               | 789.00 kg/m^3 |
+| Oxidizer Injector Diameter | 1.26 mm       |
+| Fuel Injector Diameter     | 0.63 mm       |
+Do you see the problem? Holes of 0.63 mm are almost impossible to drill, especially in a high school shop. To solve this problem, we'll do two things:
+
+1. Increase our thrust to 65N. More thrust means more propellant being used.
+2. Use only one hole to feed the fuel into the injector. Since it's a swirler, this shouldn't be much of a problem.
+
+Let's run the script again, with the updated parameters:
+
+| Parameter                    | Value        |
+| ---------------------------- | ------------ |
+| Thrust                       | 65 N         |
+| Chamber Pressure             | 1.5 MPa      |
+| Ambient Pressure             | 101325 Pa    |
+| Propellant                   | GOX/Ethanol  |
+| O/F Ratio                    | 1.40         |
+| Characteristic Velocity (c*) | 1641.81 m/s  |
+| Thrust Coefficient (Cf)      | 1.35         |
+| Specific Impulse (Isp)       | 226.24 s     |
+| Total Mass Flow Rate         | 0.029 kg/s   |
+| Fuel Mass Flow Rate          | 0.012 kg/s   |
+| Oxidizer Mass Flow Rate      | 0.017 kg/s   |
+| Throat Diameter              | 6.4 mm       |
+| Expansion Ratio (epsilon)    | 2.94         |
+| Nozzle Exit Diameter         | 11.0 mm      |
+| Chamber Diameter             | 31.9 mm      |
+| Chamber Length               | 60 mm        |
+| Injector Pressure Drop       | 0.3 MPa      |
+| Oxidizer Density             | 23.65 kg/m^3 |
+| Fuel Density                 | 789 kg/m^3   |
+| Oxidizer Injector Diameter   | 1.44 mm      |
+| Fuel Injector Diameter       | 1.01 mm      |
+As you can see, making these changes increased the fuel injector diameter to 1.01 mm, which is way easier to manufacture.
+
+## 4. It's a Material World
+
+Before we start designing, we need to decide what material to use. We have 3 options:
+1. Copper
+	- Pros:
+		- Incredible thermal conductivity. It sucks heat away from the combustion gas so fast that the surface of the metal stays relatively "cool" even though the gas is 3000 K.
+	- Cons:
+		- Expensive
+		- It's "soft", making it hard to machine
+2. Stainless steel
+	- Pros:
+		- High melting point (1400°C) and very strong
+	- Cons:
+		- Terrible thermal conductivity
+		- Quite hard to machine
+3. Aluminum
+	- Pros:
+		- Second-best thermal conductivity (after copper)
+		- It's incredibly easy to machine on a lathe or mill
+		- Cheap
+	- Cons:
+		- Low melting point (660°C)
+
+Although it has a low melting point, the price, thermal conductivity and machinability make aluminum a good choice for our engine.
+We'll see how we fix these thermal issues in the next section, but first, let's calculate how thick our walls need to be:
+$$t = \frac{P_c \cdot r}{\sigma / FS}
+$$
+- **$P_c$:** 1,500,000 Pa (15 bar).
+- **$r$:** Chamber radius (0.0156 m).
+- **$\sigma$ (Sigma):** Yield strength of Aluminum 6061-T6 (241 MPa).
+- **$FS$:** Factor of Safety (4.0 for rockets).
+
+If we calculate this, we find that we need a wall thickness of 0.39 mm. While in theory this should be enough to hold the pressure, in reality, our walls should be around **5mm thick**. Why? Because the aluminum gets weaker as it gets hot, and we need enough "meat" in the metal to machine it!
+
+## 5. A Very Brief Guide to Not Melting
+
+As discussed in the previous section, we will use aluminum, which has a melting point of only 660°C. To prevent our rocket from turning to an expensive puddle of molten metal, we will have to cool it.
+There are three ways to tackle this problem:
+1. **Passive cooling**: Use either the engine nozzle or chamber walls exposed to the atmosphere as radiators.
+2. **Active cooling**: Use a cooling fluid circulated against the walls to get heat out of the engine.
+3. **Regenerative cooling**: Active cooling, but instead of using an external coolant, the propellant doubles as the cooling fluid.
+
+I will use **Active cooling** for this engine, for the following reasons:
+
+1. **Safety I**: If I design the engine for unlimited run time, the chance of destroying it in a 5 second initial run is extremely low. With passive cooling, you need to add a lot of surface area to make it run for a long time.
+2. **Safety II**: The cooling jacket doubles as a shrapnel shield, and protects the test stand (and me) from a possible explosion.
+3. It should be an interesting and educational challenge, but not as hard as Regenerative cooling.
+
+After some research, I discovered that small hobby engines have an average heat transfer to the chamber and nozzle walls of about 0.5 Kw/cm2/sec. This is a rough industry estimate, so a generous safety factor is applied.
+
+In order to know the total heat transfer of our engine, we need to know the total surface area. We'll use a convergence angle of 45° and a divergence angle of 15°. After entering this data into our script, we can now see that we have a total surface area of 81.53 cm^2.
+
+| Parameter                      | Value      |
+| ------------------------------ | ---------- |
+| Chamber Surface Area           | 68.24 cm^2 |
+| Nozzle Diverging Surface Area  | 2.40 cm^2  |
+| Nozzle Converging Surface Area | 10.88 cm^2 |
+| Total Surface Area             | 81.53 cm^2 |
+
+The total heat transfer, $Q$, is equal to the transfer rate multiplied by the surface area of the inner walls. Therefore
+$Q = qA$
+$Q = 0.5 [Kw/cm^2/sec] * 81.53 [cm^2]$
+which gives us a total heat transfer of 40.76 kW, that's about 55 horsepower!
+
+We will use water as our coolant, because it's extremely easy to access. A flow velocity of 10 m/s should be more than enough to prevent our water from boiling (if it boils, steam bubbles will act as insulation, resulting in a molten engine). After running our script, this is all our cooling data:
+
+| Parameter               | Value          |
+| ----------------------- | -------------- |
+| Heat Flux (q)           | 0.50 kW/cm^2/s |
+| Heat Transfer (Q)       | 40.76 kW       |
+| Fluid flow velocity     | 10 m/s         |
+| Coolant heat capacity   | 4.19 kJ/kg/K   |
+| Coolant density         | 1000 kg/m^3    |
+| Coolant Mass Flow Rate  | 0.325 kg/s     |
+| Cooling Jacket Diameter | 42.4 mm        |
