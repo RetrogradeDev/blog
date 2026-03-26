@@ -12,7 +12,7 @@ A high school student walks into a machine shop with €40 and the goal of makin
 Rocket engines are, at their core, surprisingly simple machines, but what makes them complex is the fact that flight engines need extremely high thrust and efficiency, while being as lightweight as possible. Cost isn't much of a problem, although it is for me.
 
 Before designing everything, I want to list some objectives:
-- Simple. My school has a decent machine shop, however, I have very limited experience with them.
+- Simple. My school has a decent machine shop; however, I have very limited experience with them.
 - Safe. I like my body in one piece.
 - Cheap. I currently own €40.21.
 
@@ -32,7 +32,7 @@ The oxidizer, GOX, is cheap, pretty easy to find, but most importantly, not toxi
 The fuel, ethanol, also known as ethyl alcohol or simply alcohol, is cheap, is easier to handle than kerosene and is less prone to leaving soot, which makes it safer. It's not toxic, and you can just buy it online.
 Our Mixture Ratio (The amount of oxidizer to fuel) will be 1.4. While the ideal ratio for GOX/Ethanol is around 2.0, adding more fuel keeps the temperature lower.
 
-We also need to get these fuels into our engine. We could use turbopumps, like real engines use, but this is way too complex and expensive for us. Instead, we will use a pressure fed design, where we use the pressure of the tanks to push it into the combustion chamber. For gaseous oxygen, this won't be much of a problem, since it comes in pressurized tanks, however, for our fuel, this is a problem. Since ethanol is a liquid and is incompressible, we will use nitrogen as a "gas piston" to displace it.
+We also need to get these fuels into our engine. We could use turbopumps, like real engines use, but this is way too complex and expensive for us. Instead, we will use a pressure fed design, where we use the pressure of the tanks to push it into the combustion chamber. For gaseous oxygen, this won't be much of a problem, since it comes in pressurized tanks; however, for our fuel, this is a problem. Since ethanol is a liquid and is incompressible, we will use nitrogen as a "gas piston" to displace it.
 
 ## 2. It's not Rocket Science...
 
@@ -179,7 +179,7 @@ I will use **Active cooling** for this engine, for the following reasons:
 2. **Safety II**: The cooling jacket doubles as a shrapnel shield, and protects the test stand (and me) from a possible explosion.
 3. It should be an interesting and educational challenge, but not as hard as Regenerative cooling.
 
-After some research, I discovered that small hobby engines have an average heat transfer to the chamber and nozzle walls of about 0.5 Kw/cm2/sec. This is a rough industry estimate, so a generous safety factor is applied.
+After some research, I discovered that small hobby engines have an average heat transfer to the chamber and nozzle walls of about 0.5 Kw/cm^2. This is a rough industry estimate, so a generous safety factor is applied.
 
 In order to know the total heat transfer of our engine, we need to know the total surface area. We'll use a convergence angle of 45° and a divergence angle of 15°. After entering this data into our script, we can now see that we have a total surface area of 81.53 cm^2.
 
@@ -191,8 +191,10 @@ In order to know the total heat transfer of our engine, we need to know the tota
 | Total Surface Area             | 81.53 cm^2 |
 
 The total heat transfer, $Q$, is equal to the transfer rate multiplied by the surface area of the inner walls. Therefore
+
 $Q = qA$
-$Q = 0.5 [Kw/cm^2/sec] * 81.53 [cm^2]$
+$Q = 0.5 [Kw/cm^2] * 81.53 [cm^2]$
+
 which gives us a total heat transfer of 40.76 kW, that's about 55 horsepower!
 
 We will use water as our coolant, because it's extremely easy to access. A flow velocity of 10 m/s should be more than enough to prevent our water from boiling (if it boils, steam bubbles will act as insulation, resulting in a molten engine). After running our script, this is all our cooling data:
