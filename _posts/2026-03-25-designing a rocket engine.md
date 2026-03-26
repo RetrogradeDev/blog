@@ -52,7 +52,7 @@ I would love to explain what all of these are and the math behind it, but there 
 - **Specific Impulse**: a measure of the efficiency of the rocket engine, representing the thrust produced per unit of propellant consumed.
 - **Mass Flow Rate**: the mass of a substance passing through a given surface per unit of time.
 
-Now, every time you change a single parameter, you have to recompute all of these, so instead of spending 15 minutes doing that, I did what's called a programmer move, and spent 6h designing a tool that does all of this for you. On the plus side, I did learn a lot while doing this, and I enjoyed the process. If you are interested, it is available on my GitHub: https://github.com/RetrogradeDev/propulsion_designer
+Now, every time you change a single parameter, you have to recompute all of these, so instead of spending 15 minutes doing that, I did what's called a programmer move, and spent 6h designing a tool that does all of this for you. On the plus side, I did learn a lot while doing this, and I enjoyed the process. If you are interested, it is available on my GitHub: [https://github.com/RetrogradeDev/propulsion_designer](https://github.com/RetrogradeDev/propulsion_designer)
 
 Here is a table, covering some of the important parameters we computed:
 
@@ -85,7 +85,8 @@ Coaxial swirlers work by injecting fuel and oxidizer through concentric tubes w
 
 By swirling the GOX and Ethanol in opposite directions (or even just swirling the fuel), we create a high-shear environment. This 'shreds' the liquid ethanol into a fine mist, maximizing the surface area for combustion.
 
-![Coaxial Swirler](/assets/img/swirler.png){: width="200" }
+![Coaxial Swirler](/assets/swirler.png){: width="200" }
+_A render of a Coaxial Swirler, By Copenhagen Suborbitals_
 
 The script calculates the desired size of the oxidizer and fuel inlets, given that we want 2 fuel holes, 4 oxidizer holes and a pressure drop of 20%, to ensure stable flow and prevent combustion instabilities from propagating upstream.
 
