@@ -192,7 +192,8 @@ In order to know the total heat transfer of our engine, we need to know the tota
 
 The total heat transfer, $Q$, is equal to the transfer rate multiplied by the surface area of the inner walls. Therefore
 
-$Q = qA$
+$Q = qA
+$
 $Q = 0.5 [Kw/cm^2] * 81.53 [cm^2]$
 
 which gives us a total heat transfer of 40.76 kW, that's about 55 horsepower!
